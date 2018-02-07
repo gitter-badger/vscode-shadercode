@@ -14,6 +14,22 @@
     "main": "./bin/extension",
     "contributes": {
         
+        "languages": [{
+            "id": "glsl",
+            "aliases": [
+                "GLSL"
+            ],
+            "extensions": [
+                ".vert",
+                ".frag",
+                ".comp",
+                ".geom",
+                ".tesc",
+                ".tese",
+                ".glsl"
+            ]
+        }],
+
         "commands": [
             {"command": "shadercode.lintShader", "title": "Lint shader source"},
             {"command": "shadercode.taskShader", "title": "Task for build shader source"}
