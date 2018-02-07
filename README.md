@@ -4,18 +4,19 @@ Enable linting and tasking for shaders (GLSL, SPIR-V)
 
 ## Features
 
-- Linting (experimental) 
-- Problem matchers (`glsl` for `glslangValidator`) for compile task
+* Linting (experimental) 
+* Problem matchers (`glsl` for `glslangValidator`) for compile task
 
 ## Planned 
 
-- SPIR-V open and edit
-- SPIR-V validation
-- SPIR-V optimizer support 
+* SPIR-V open and edit
+* SPIR-V validation
+* SPIR-V optimizer support 
 
 ## Requirements
 
-Installed `glslangValidator` in your system.
+* Installed `glslangValidator` in your system.
+* Installed `vscode-shader` for identify shaders.
 
 ## Extension Settings
 
