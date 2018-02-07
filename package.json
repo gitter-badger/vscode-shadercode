@@ -1,0 +1,80 @@
+{
+    "name": "vscode-shadercode",
+    "displayName": "VS code SPIR-V (glsl/hlsl) shaders tools",
+    "description": "Helper for SPIR-V compiling from shader sources",
+    "version": "0.0.1",
+    "publisher": "elviras9t",
+    "engines": { "vscode": "^1.19.0" },
+    "categories": [ "Other", "Linters" ],
+    "icon": "images/icon.png",
+    "activationEvents": [
+        "onLanguage:glsl"
+    ],
+    "main": "./bin/extension",
+    "contributes": {
+        
+        "commands": [
+            {"command": "shadercode.lintShader", "title": "Lint shader source"},
+            {"command": "shadercode.taskShader", "title": "Task for build shader source"}
+        ],
+        
+        "problemMatchers": [{"name": "glsl", "owner": "glsl", "fileLocation": ["relative", "${workspaceFolder}"], "pattern": {
+            "regexp": "^(WARNING|ERROR|INFO):\\s+(.*):(\\d+):\\s+(.*)\\s+:\\s+(.*)$",
+            "severity": 1, "file": 2, "line": 3, "code": 4, "message": 5
+        }}],
+
+        "menus": {
+            "explorer/context": [{
+                "when": "resourceLangId == glsl",
+                "command": "shadercode.lintShader"
+            }],
+            "commandPalette": [{"command": "shadercode.lintShader"}]
+        },
+
+        "configuration":[
+            {
+                "title": "VS Code shader code and SPIR-V tools",
+                "properties": {
+
+                    "shadercode.glslangValidatorPath": {
+                        "type": "string",
+                        "default": "glslangValidator",
+                        "description": "validator and GLSL compiler path",
+                        "scope": "resource"
+                    },
+
+                    "shadercode.lintArgTemplate": {
+                        "type": "array",
+                        "default": null,
+                        "description": "matched argument in validator execution (for expired users)",
+                        "scope": "resource"
+                    },
+
+                    "shadercode.enableLinter": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "enable shader linter (experimental)",
+                        "scope": "resource"
+                    }
+
+                }
+            }
+        ]
+    },
+    
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "eslint": "^4.6.1",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    }
+}
