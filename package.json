@@ -10,6 +10,7 @@
     "activationEvents": [
         "onLanguage:glsl"
     ],
+    "repository": {"type": "git", "url": "https://github.com/world8th/vscode-shadercode.git"},
     "main": "./bin/extension",
     "contributes": {
         
