@@ -5,7 +5,8 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 
 
-export default class GLSLLintingProvider implements vscode.CodeActionProvider {
+
+export default class HLSLLintingProvider implements vscode.CodeActionProvider {
   private static commandId: string = 'shadercode.lintShader';
   private command: vscode.Disposable;
   private diagnosticCollection: vscode.DiagnosticCollection;
@@ -13,7 +14,7 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
 
   
   public activate(subscriptions: vscode.Disposable[]) {
-    this.command = vscode.commands.registerCommand(GLSLLintingProvider.commandId, this.runCodeAction, this);
+    this.command = vscode.commands.registerCommand(HLSLLintingProvider.commandId, this.runCodeAction, this);
     subscriptions.push(this);
     this.diagnosticCollection = vscode.languages.createDiagnosticCollection();
 
@@ -34,7 +35,7 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
   }
 
 
-  private parseErrorReport(line: string){
+  private parseErrorReport(line: string) {
     let matches = line.match(/^(ERROR|WARNING|INFO):\s+(.*):(\d+):\s+(.*)\s+:\s+(.*)$/mi);
     matches.splice(0,1);
     return matches;
@@ -42,7 +43,7 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
 
 
   private doLint(textDocument: vscode.TextDocument): any {
-    if (textDocument.languageId !== 'glsl') {
+    if (textDocument.languageId !== 'hlsl') {
       return;
     }
 
@@ -51,7 +52,6 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
       vscode.window.showErrorMessage('GLSL Lint: config.glslangValidatorPath is empty, please set it to the executable');
       return;
     }
-
 
     // apply custom arguments for validation
     let customArgumentSet: string[] = [];
@@ -103,20 +103,16 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
                   this.diagnosticCollection.set(vscode.Uri.file(path.resolve(vscode.workspace.rootPath, matches[1])), diagnostics);
                 }
               }
-          }});
-
-
+            }});
         });
       }
     }
   }
 
-
   public provideCodeActions(document: vscode.TextDocument, range: vscode.Range, context: vscode.CodeActionContext, token: vscode.CancellationToken):
-    vscode.ProviderResult<vscode.Command[]> { throw new Error('Method not implemented.'); }
-
+   vscode.ProviderResult<vscode.Command[]> { throw new Error('Method not implemented.'); }
 
   private runCodeAction(document: vscode.TextDocument, range: vscode.Range, message: string): 
-    any {throw new Error('Method not implemented.'); }
+    any { throw new Error('Method not implemented.'); }
 
 }

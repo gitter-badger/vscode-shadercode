@@ -4,12 +4,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require("vscode");
 const glslLintProvider_1 = require("./modules/glslLintProvider");
+const hlslLintProvider_1 = require("./modules/hlslLintProvider");
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
-    let linter = new glslLintProvider_1.default();
-    linter.activate(context.subscriptions);
-    vscode.languages.registerCodeActionsProvider('glsl', linter);
+    {
+        let linter = new glslLintProvider_1.default();
+        linter.activate(context.subscriptions);
+        vscode.languages.registerCodeActionsProvider('glsl', linter);
+    }
+    {
+        let linter = new hlslLintProvider_1.default();
+        linter.activate(context.subscriptions);
+        vscode.languages.registerCodeActionsProvider('hlsl', linter);
+    }
 }
 exports.activate = activate;
 // this method is called when your extension is deactivated

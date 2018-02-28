@@ -30,7 +30,10 @@ class GLSLLintingProvider {
             return;
         }
         const config = vscode.workspace.getConfiguration('shadercode');
-        if (config.glslangValidatorPath === null || config.glslangValidatorPath === '') {
+        // The code you place here will be executed every time your command is
+        // executed
+        if (config.glslangValidatorPath === null ||
+            config.glslangValidatorPath === '') {
             vscode.window.showErrorMessage('GLSL Lint: config.glslangValidatorPath is empty, please set it to the executable');
             return;
         }
@@ -51,7 +54,9 @@ class GLSLLintingProvider {
         if (config.enableLinter) {
             let spawnedProcess = cp.spawn(config.glslangValidatorPath, [...args], options);
             if (spawnedProcess.pid) {
-                spawnedProcess.stdout.on('data', (data) => { composedOut += data.toString('utf8'); });
+                spawnedProcess.stdout.on('data', (data) => {
+                    composedOut += data.toString('utf8');
+                });
                 spawnedProcess.stdout.on('end', () => {
                     let lines = composedOut.toString().split(/(?:\r\n|\r|\n)/g);
                     if (lines)
@@ -92,9 +97,13 @@ class GLSLLintingProvider {
             }
         }
     }
-    provideCodeActions(document, range, context, token) { throw new Error('Method not implemented.'); }
-    runCodeAction(document, range, message) { throw new Error('Method not implemented.'); }
+    provideCodeActions(document, range, context, token) {
+        throw new Error('Method not implemented.');
+    }
+    runCodeAction(document, range, message) {
+        throw new Error('Method not implemented.');
+    }
 }
 GLSLLintingProvider.commandId = 'shadercode.lintShader';
 exports.default = GLSLLintingProvider;
-//# sourceMappingURL=glslLintProvider.js.map
+//# sourceMappingURL=hlslLintProvide.js.map

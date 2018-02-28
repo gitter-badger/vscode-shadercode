@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cp = require("child_process");
 const vscode = require("vscode");
 const path = require("path");
-class GLSLLintingProvider {
+class HLSLLintingProvider {
     activate(subscriptions) {
-        this.command = vscode.commands.registerCommand(GLSLLintingProvider.commandId, this.runCodeAction, this);
+        this.command = vscode.commands.registerCommand(HLSLLintingProvider.commandId, this.runCodeAction, this);
         subscriptions.push(this);
         this.diagnosticCollection = vscode.languages.createDiagnosticCollection();
         vscode.workspace.onDidOpenTextDocument(this.doLint, this, subscriptions);
@@ -26,7 +26,7 @@ class GLSLLintingProvider {
         return matches;
     }
     doLint(textDocument) {
-        if (textDocument.languageId !== 'glsl') {
+        if (textDocument.languageId !== 'hlsl') {
             return;
         }
         const config = vscode.workspace.getConfiguration('shadercode');
@@ -95,6 +95,6 @@ class GLSLLintingProvider {
     provideCodeActions(document, range, context, token) { throw new Error('Method not implemented.'); }
     runCodeAction(document, range, message) { throw new Error('Method not implemented.'); }
 }
-GLSLLintingProvider.commandId = 'shadercode.lintShader';
-exports.default = GLSLLintingProvider;
-//# sourceMappingURL=glslLintProvider.js.map
+HLSLLintingProvider.commandId = 'shadercode.lintShader';
+exports.default = HLSLLintingProvider;
+//# sourceMappingURL=hlslLintProvider.js.map
