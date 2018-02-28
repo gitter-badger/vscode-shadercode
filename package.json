@@ -7,9 +7,10 @@
     "engines": { "vscode": "^1.19.0" },
     "categories": [ "Other", "Linters" ],
     "icon": "images/icon.png",
-    "activationEvents": ["onLanguage:glsl", "onLanguage:spirv"],
     "repository": {"type": "git", "url": "https://github.com/world8th/vscode-shadercode.git"},
+
     "main": "./bin/extension",
+    "activationEvents": ["onLanguage:glsl", "onLanguage:spirv"],
     "contributes": {
         
         "languages": [{
