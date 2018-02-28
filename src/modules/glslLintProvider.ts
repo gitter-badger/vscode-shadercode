@@ -42,9 +42,7 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
 
 
   private doLint(textDocument: vscode.TextDocument): any {
-    if (textDocument.languageId !== 'glsl') {
-      return;
-    }
+    if (textDocument.languageId !== 'glsl') { return; }
 
     const config = vscode.workspace.getConfiguration('shadercode');
     if (config.glslangValidatorPath === null || config.glslangValidatorPath === '') {
@@ -75,6 +73,8 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
     if (config.enableLinter) {
       let spawnedProcess = cp.spawn(config.glslangValidatorPath, [...args], options);
       if (spawnedProcess.pid) {
+
+
         spawnedProcess.stdout.on('data', (data: Buffer) => { composedOut += data.toString('utf8'); });
         spawnedProcess.stdout.on('end', () => {
           let lines = composedOut.toString().split(/(?:\r\n|\r|\n)/g);
@@ -90,9 +90,7 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
               if (severity !== undefined) {
                 let matches = this.parseErrorReport(line);
                 if (matches && matches.length == 5) { // 
-                  let message = matches[4], errcode = matches[3].replace(/^'(.+)?'$/,'$1'); // unquote
-
-                  let errorline = parseInt(matches[2])-1;
+                  let message = matches[4], errcode = matches[3].replace(/^'(.+)?'$/,'$1'), errorline = parseInt(matches[2])-1;
                   let documentcode = textDocument.getText(new vscode.Range(errorline, 0, errorline+1, 0)).split(/(?:\r\n|\r|\n)/g)[0];
 
                   let searchedColl = documentcode.indexOf(errcode);
@@ -104,9 +102,9 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
                 }
               }
           }});
-
-
         });
+
+        
       }
     }
   }
@@ -114,7 +112,6 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
 
   public provideCodeActions(document: vscode.TextDocument, range: vscode.Range, context: vscode.CodeActionContext, token: vscode.CancellationToken):
     vscode.ProviderResult<vscode.Command[]> { throw new Error('Method not implemented.'); }
-
 
   private runCodeAction(document: vscode.TextDocument, range: vscode.Range, message: string): 
     any {throw new Error('Method not implemented.'); }

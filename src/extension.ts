@@ -5,7 +5,6 @@
 import * as vscode from 'vscode';
 
 import GLSLLintingProvider from './modules/glslLintProvider';
-import HLSLLintingProvider from './modules/hlslLintProvider';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -14,12 +13,6 @@ export function activate(context: vscode.ExtensionContext) {
         let linter = new GLSLLintingProvider();
         linter.activate(context.subscriptions);
         vscode.languages.registerCodeActionsProvider('glsl', linter);
-    }
-
-    {
-        let linter = new HLSLLintingProvider();
-        linter.activate(context.subscriptions);
-        vscode.languages.registerCodeActionsProvider('hlsl', linter);
     }
 }
 

@@ -72,8 +72,7 @@ class GLSLLintingProvider {
                                 if (severity !== undefined) {
                                     let matches = this.parseErrorReport(line);
                                     if (matches && matches.length == 5) {
-                                        let message = matches[4], errcode = matches[3].replace(/^'(.+)?'$/, '$1'); // unquote
-                                        let errorline = parseInt(matches[2]) - 1;
+                                        let message = matches[4], errcode = matches[3].replace(/^'(.+)?'$/, '$1'), errorline = parseInt(matches[2]) - 1;
                                         let documentcode = textDocument.getText(new vscode.Range(errorline, 0, errorline + 1, 0)).split(/(?:\r\n|\r|\n)/g)[0];
                                         let searchedColl = documentcode.indexOf(errcode);
                                         if (searchedColl < 0) {
