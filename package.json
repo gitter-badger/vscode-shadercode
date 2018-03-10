@@ -2,7 +2,7 @@
     "name": "vscode-shadercode",
     "displayName": "VS code SPIR-V (glsl/hlsl) shaders tools",
     "description": "Helper for SPIR-V compiling from shader sources",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "publisher": "elviras9t",
     "engines": {
         "vscode": "^1.19.0"
@@ -103,19 +103,18 @@
                     "shadercode.lintArgTemplate": {
                         "type": "array",
                         "default": [
-                            "--client",
-                            "vulkan100",
-                            "--target-env",
-                            "vulkan1.1",
-                            "-H",
-                            "$TARGET"
+                            "-x",
+                            "-V110",
+                            "$TARGET",
+                            "-o",
+                            "../tmp/$TARGET.spv.txt"
                         ],
                         "description": "matched argument in validator execution (for expired users)",
                         "scope": "resource"
                     },
                     "shadercode.enableLinter": {
                         "type": "boolean",
-                        "default": false,
+                        "default": true,
                         "description": "enable shader linter (experimental)",
                         "scope": "resource"
                     }

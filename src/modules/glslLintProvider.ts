@@ -11,7 +11,7 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
   private diagnosticCollection: vscode.DiagnosticCollection;
   private customArgumentSet: string[];
 
-  
+
   public activate(subscriptions: vscode.Disposable[]) {
     this.command = vscode.commands.registerCommand(GLSLLintingProvider.commandId, this.runCodeAction, this);
     subscriptions.push(this);
@@ -34,9 +34,9 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
   }
 
 
-  private parseErrorReport(line: string){
+  private parseErrorReport(line: string) {
     let matches = line.match(/^(ERROR|WARNING|INFO):\s+(.*):(\d+):\s+(.*)\s+:\s+(.*)$/mi);
-    matches.splice(0,1);
+    matches.splice(0, 1);
     return matches;
   }
 
@@ -61,25 +61,24 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
         customArgumentSet.push(a);
       }
     }
-    
-    
-    let args: string[] = customArgumentSet && customArgumentSet.length > 0 ? customArgumentSet : [textDocument.fileName];
+
+
+    let args: string[] = customArgumentSet || [shaderPath];
     let options = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath, shell: true } : undefined;
     let composedOut = "";
-    
+
     let diagnostics: vscode.Diagnostic[] = [];
     this.diagnosticCollection.set(textDocument.uri, diagnostics);
 
     if (config.enableLinter) {
       let spawnedProcess = cp.spawn(config.glslangValidatorPath, [...args], options);
       if (spawnedProcess.pid) {
-
-
         spawnedProcess.stdout.on('data', (data: Buffer) => { composedOut += data.toString('utf8'); });
         spawnedProcess.stdout.on('end', () => {
           let lines = composedOut.toString().split(/(?:\r\n|\r|\n)/g);
-          if (lines) lines.forEach(line => { if (line !== '') {
-              
+          if (lines) lines.forEach(line => {
+            if (line !== '') {
+
               // severity matcher 
               let severity: vscode.DiagnosticSeverity = undefined;
               if (line.startsWith('ERROR:')) { severity = vscode.DiagnosticSeverity.Error; }
@@ -90,21 +89,22 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
               if (severity !== undefined) {
                 let matches = this.parseErrorReport(line);
                 if (matches && matches.length == 5) { // 
-                  let message = matches[4], errcode = matches[3].replace(/^'(.+)?'$/,'$1'), errorline = parseInt(matches[2])-1;
-                  let documentcode = textDocument.getText(new vscode.Range(errorline, 0, errorline+1, 0)).split(/(?:\r\n|\r|\n)/g)[0];
+                  let message = matches[4], errcode = matches[3].replace(/^'(.+)?'$/, '$1'), errorline = parseInt(matches[2]) - 1;
+                  let documentcode = textDocument.getText(new vscode.Range(errorline, 0, errorline + 1, 0)).split(/(?:\r\n|\r|\n)/g)[0];
 
                   let searchedColl = documentcode.indexOf(errcode);
                   if (searchedColl < 0) { searchedColl = 0; errcode = documentcode; } // unknown linter 
 
-                  let hilrange = new vscode.Range(errorline, searchedColl, errorline, searchedColl + Math.max(errcode.length-1, 0));
-                  if ( path.relative(matches[1], shaderPath).length <= 0 ) diagnostics.push(new vscode.Diagnostic(hilrange, message, severity));
+                  let hilrange = new vscode.Range(errorline, searchedColl, errorline, searchedColl + Math.max(errcode.length - 1, 0));
+                  if (path.relative(matches[1], shaderPath).length <= 0) diagnostics.push(new vscode.Diagnostic(hilrange, message, severity));
                   this.diagnosticCollection.set(vscode.Uri.file(path.resolve(vscode.workspace.rootPath, matches[1])), diagnostics);
                 }
               }
-          }});
+            }
+          });
         });
 
-        
+
       }
     }
   }
@@ -113,7 +113,7 @@ export default class GLSLLintingProvider implements vscode.CodeActionProvider {
   public provideCodeActions(document: vscode.TextDocument, range: vscode.Range, context: vscode.CodeActionContext, token: vscode.CancellationToken):
     vscode.ProviderResult<vscode.Command[]> { throw new Error('Method not implemented.'); }
 
-  private runCodeAction(document: vscode.TextDocument, range: vscode.Range, message: string): 
-    any {throw new Error('Method not implemented.'); }
+  private runCodeAction(document: vscode.TextDocument, range: vscode.Range, message: string):
+    any { throw new Error('Method not implemented.'); }
 
 }

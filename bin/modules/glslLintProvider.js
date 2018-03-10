@@ -43,7 +43,7 @@ class GLSLLintingProvider {
                 customArgumentSet.push(a);
             }
         }
-        let args = customArgumentSet && customArgumentSet.length > 0 ? customArgumentSet : [textDocument.fileName];
+        let args = customArgumentSet || [shaderPath];
         let options = vscode.workspace.rootPath ? { cwd: vscode.workspace.rootPath, shell: true } : undefined;
         let composedOut = "";
         let diagnostics = [];

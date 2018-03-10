@@ -30,9 +30,10 @@ Calling out known issues can help limit users opening duplicate issues against y
 
 ## Release Notes
 
-### 0.0.1
+### 0.0.5
 
-Initial version 
+* Enable linter by default
+* Default argument template
 
 -----------------------------------------------------------------------------------------------------------
 
