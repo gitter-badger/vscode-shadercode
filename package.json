@@ -2,7 +2,7 @@
     "name": "vscode-shadercode",
     "displayName": "VS code SPIR-V (glsl/hlsl) shaders tools",
     "description": "Helper for SPIR-V compiling from shader sources",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "publisher": "elviras9t",
     "engines": {
         "vscode": "^1.19.0"
