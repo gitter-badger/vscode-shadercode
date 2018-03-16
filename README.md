@@ -1,5 +1,7 @@
 # VS Code shader tools
 
+[![Join the chat at https://gitter.im/world8th/vscode-shadercode](https://badges.gitter.im/world8th/vscode-shadercode.svg)](https://gitter.im/world8th/vscode-shadercode?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Enable linting and tasking for shaders (GLSL, SPIR-V)
 
 ## Features
